@@ -1,8 +1,9 @@
 package application.view.minefield;
 
 import application.controller.Controller;
-import application.view.dashboard.Dashboard;
-import javafx.animation.Animation;
+import application.controller.GameClock;
+import application.view.View;
+import application.view.dashboard.ScaredLabel;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -10,17 +11,17 @@ import javafx.scene.layout.TilePane;
 
 public class ViewCellMatrix extends TilePane {
 
-  private Minefield minefield;
+  private View view;
   private ViewCell[][] cellsMatrix;
 
-  public ViewCellMatrix(Minefield minefield, int rows, int cols) {
-    this.minefield = minefield;
+  public ViewCellMatrix(View view, int rows, int cols) {
+    this.view = view;
     cellsMatrix = new ViewCell[rows][cols];
 
     EventHandler<MouseEvent> handler = new MouseEventHandler();
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < cols; col++) {
-        cellsMatrix[row][col] = new ViewCell(row, col, handler);
+        cellsMatrix[row][col] = new ViewCell(view, row, col, handler);
       }
     }
 
@@ -28,10 +29,6 @@ public class ViewCellMatrix extends TilePane {
     for (int row = 0; row < cellsMatrix.length; row++) {
       getChildren().addAll(cellsMatrix[row]);
     }
-  }
-
-  public Minefield getMinefield() {
-    return minefield;
   }
 
   public ViewCell[][] getCellsMatrix() {
@@ -51,18 +48,22 @@ public class ViewCellMatrix extends TilePane {
 
     @Override
     public void handle(MouseEvent event) {
-
       if (Controller.gameIsOn()) {
 
         ViewCell clickedCell = (ViewCell) event.getSource();
 
         if (event.getButton() == MouseButton.PRIMARY) {
+
           startGameClock();
-          Dashboard.getResetButton().setButtonLabel("scared");
-          minefield.getView().getController().revealCell(clickedCell.getRow(),
+
+          view.setResetButtonLabel(new ScaredLabel());
+
+          view.getController().revealCell(clickedCell.getRow(),
                   clickedCell.getCol());
+
         } else if (event.getButton() == MouseButton.SECONDARY) {
-          minefield.getView().getController().toggleFlag(clickedCell.getRow(),
+
+          view.getController().toggleFlag(clickedCell.getRow(),
                   clickedCell.getCol());
         }
       }
@@ -70,7 +71,8 @@ public class ViewCellMatrix extends TilePane {
   }
 
   private static void startGameClock() {
-    if (Dashboard.getGameClock().getTimeline().getStatus() == Animation.Status.STOPPED)
-      Dashboard.getGameClock().getTimeline().play();
+    if (GameClock.stopped()) {
+      GameClock.play();
+    }
   }
 }

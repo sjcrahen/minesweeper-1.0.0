@@ -1,5 +1,6 @@
 package application.view.dashboard;
 
+import application.controller.GameClock;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -12,13 +13,11 @@ public class GameClockPane extends StackPane {
 
   private Label label;
 
-  public GameClockPane(GameClock gameClock) {
+  public GameClockPane() {
     setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(3), null)));
     label = new Label();
-    label.textProperty().bind(gameClock.getGameTime());
-    Font font = Font.loadFont(
-            getClass().getClassLoader().getResourceAsStream("resources/fonts/digitalFont.ttf"),
-            40.0);
+    label.textProperty().bind(GameClock.getGameTimeStringProperty());
+    Font font = Font.loadFont("file:resources/fonts/digitalFont.ttf", 40.0);
     label.setFont(font);
     label.setTextFill(Color.RED);
     getChildren().add(label);

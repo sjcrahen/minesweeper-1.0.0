@@ -4,6 +4,7 @@ import application.controller.Controller;
 import application.controller.MinesweeperController;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
@@ -12,18 +13,19 @@ public class Launcher extends Application {
   private Controller controller;
 
   @Override
-  public void start(Stage theStage) {
+  public void start(Stage primaryStage) {
 
     controller = new MinesweeperController(this);
 
-    stage = theStage;
+    stage = primaryStage;
     stage.setScene(new Scene(controller.getView()));
     stage.setTitle("Minesweeper");
+    stage.getIcons().add(new Image("file:resources/img/explodedMine.PNG"));
     stage.setResizable(false);
     stage.show();
   }
 
-  public Stage getStage() {
-    return stage;
+  public void setScene(Scene scene) {
+    stage.setScene(scene);
   }
 }

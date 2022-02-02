@@ -11,16 +11,14 @@ public class Cell {
   private boolean revealed;
   private boolean flagged;
   private PropertyChangeSupport support;
-  private PropertyChangeListener pcl;
 
-  public Cell(int row, int col, int value, Model model) {
+  public Cell(int row, int col, int value, PropertyChangeListener pcl) {
     this.row = row;
     this.col = col;
     this.value = value;
     revealed = false;
     flagged = false;
     support = new PropertyChangeSupport(this);
-    pcl = model.getController().getView().getCell(row, col);
     support.addPropertyChangeListener(pcl);
   }
 

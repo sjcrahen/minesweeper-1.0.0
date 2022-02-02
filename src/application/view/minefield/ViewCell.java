@@ -4,7 +4,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import application.controller.Controller;
 import application.model.Cell;
-import application.view.dashboard.Dashboard;
+import application.view.View;
+import application.view.dashboard.SmileLabel;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -23,7 +24,7 @@ public class ViewCell extends StackPane implements PropertyChangeListener {
   private int row;
   private int col;
 
-  public ViewCell(int row, int col, EventHandler<MouseEvent> handler) {
+  public ViewCell(View view, int row, int col, EventHandler<MouseEvent> handler) {
     this.row = row;
     this.col = col;
 
@@ -47,7 +48,7 @@ public class ViewCell extends StackPane implements PropertyChangeListener {
     setOnMousePressed(handler);
     setOnMouseReleased(e -> {
       if (Controller.gameIsOn())
-        Dashboard.getResetButton().setButtonLabel("smile");
+        view.setResetButtonLabel(new SmileLabel());
     });
   }
 
@@ -66,35 +67,41 @@ public class ViewCell extends StackPane implements PropertyChangeListener {
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
+
     Cell source = (Cell) evt.getSource();
-    String type = evt.getPropertyName();
-    if (type.equals("reveal")) {
-      updateCellLabel(source.getValue());
-    } else if (type.equals("flag")) {
+    String eventType = evt.getPropertyName();
+
+    if (eventType.equals("reveal")) {
+
+      displayCellLabel(source.getValue());
+
+    } else if (eventType.equals("flag")) {
+
       boolean isFlagged = (boolean) evt.getNewValue();
+
       if (isFlagged) {
-        getChildren().add(new CellLabel("flag"));
+        getChildren().add(new FlagLabel());
       } else {
         getChildren().clear();
       }
     }
   }
 
-  private void updateCellLabel(int value) {
+  private void displayCellLabel(int value) {
     setBorder(new Border(new BorderStroke(Color.GRAY,
             new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.BEVEL, null, 10, 0, null), null,
             new BorderWidths(1))));
     switch (value) {
       case -2:
-        getChildren().add(new CellLabel("explodedMine"));
+        getChildren().add(new ExplodedMineLabel());
         break;
       case -1:
-        getChildren().add(new CellLabel("mine"));
+        getChildren().add(new MineLabel());
         break;
       case 0:
         break;
       default:
-        getChildren().add(new CellLabel(value));
+        getChildren().add(new ValueLabel(value));
         break;
     }
   }

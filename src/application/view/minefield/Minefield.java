@@ -1,5 +1,6 @@
 package application.view.minefield;
 
+import java.beans.PropertyChangeListener;
 import application.view.View;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -14,16 +15,17 @@ public class Minefield extends StackPane {
   private View view;
   private ViewCellMatrix cellMatrix;
 
-  public Minefield(View view, int rows, int cols) {
+  public Minefield(View view, ViewCellMatrix cellMatrix, int rows, int cols) {
     this.view = view;
-    cellMatrix = new ViewCellMatrix(this, rows, cols);
+    this.cellMatrix = cellMatrix;
+    // cellMatrix = new ViewCellMatrix(this, rows, cols);
     getChildren().clear();
     getChildren().add(cellMatrix);
 
-    setMinWidth(cols * cellMatrix.getTileWidth() + 4);
-    setMaxWidth(cols * cellMatrix.getTileWidth() + 4);
-    setMinHeight(rows * cellMatrix.getTileWidth() + 4);
-    setMaxHeight(rows * cellMatrix.getTileWidth() + 4);
+    setMinWidth(cols * 20 + 4);
+    setMaxWidth(cols * 20 + 4);
+    setMinHeight(rows * 20 + 4);
+    setMaxHeight(rows * 20 + 4);
     setBorder(new Border(new BorderStroke(
             Color.GRAY, Color.WHITE, Color.WHITE, Color.GRAY,
             new BorderStrokeStyle(StrokeType.INSIDE, null, null, 10, 0, null),
@@ -41,8 +43,7 @@ public class Minefield extends StackPane {
     return cellMatrix;
   }
 
-  public void reset() {
-    // TODO Auto-generated method stub
-
+  public PropertyChangeListener getCell(int row, int col) {
+    return cellMatrix.getCell(row, col);
   }
 }

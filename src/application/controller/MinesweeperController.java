@@ -1,48 +1,101 @@
 package application.controller;
 
 import application.Launcher;
-import application.model.Model;
-import application.view.View;
-import application.view.dashboard.Dashboard;
+import application.model.MinesweeperModel;
+import application.view.ViewPane;
+import application.view.dashboard.DoneLabel;
+import application.view.dashboard.SunglassesLabel;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeType;
 
 public class MinesweeperController extends Controller {
 
-  private Launcher launcher;
-  private final int ROW = 16;
-  private final int COL = 30;
-  private final int NUM_OF_MINES = 100;
+  private final int DEFAULT_ROWS = 9;
+  private final int DEFAULT_COLS = 9;
+  private final int DEFAULT_NUM_OF_MINES = 10;
+  private int rows = DEFAULT_ROWS;
+  private int cols = DEFAULT_COLS;
+  private int numberOfMines = DEFAULT_NUM_OF_MINES;
 
   public MinesweeperController(Launcher launcher) {
     this.launcher = launcher;
-    view = new View(this, ROW, COL);
-    model = new Model(this, ROW, COL, NUM_OF_MINES);
+
+    Menu gameMenu = new Menu("Game");
+    MenuItem easy = new MenuItem("Easy");
+    easy.setOnAction(e -> resetGame(9, 9, 10));
+    MenuItem medium = new MenuItem("Medium");
+    medium.setOnAction(e -> resetGame(16, 16, 40));
+    MenuItem hard = new MenuItem("Hard");
+    hard.setOnAction(e -> resetGame(16, 30, 100));
+    gameMenu.getItems().add(easy);
+    gameMenu.getItems().add(new SeparatorMenuItem());
+    gameMenu.getItems().add(medium);
+    gameMenu.getItems().add(new SeparatorMenuItem());
+    gameMenu.getItems().add(hard);
+
+    menuBar = new MenuBar(gameMenu);
+    menuBar.setPrefWidth(cols * 20 + 24);
+    menuBar.setPrefHeight(26);
+    menuBar.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
+    menuBar.setBorder(new Border(new BorderStroke(
+            null, null, Color.DARKGRAY, null, null, null,
+            new BorderStrokeStyle(StrokeType.INSIDE, null, null, 10, 0, null),
+            null, null, new BorderWidths(1), null)));
+
+    view = new ViewPane(this, menuBar, DEFAULT_ROWS, DEFAULT_COLS);
+    model = new MinesweeperModel(this, DEFAULT_ROWS, DEFAULT_COLS, DEFAULT_NUM_OF_MINES);
     gameOn = true;
   }
 
   @Override
   public void resetGame() {
-    view = new View(this, ROW, COL);
-    model = new Model(this, ROW, COL, NUM_OF_MINES);
-    launcher.getStage().setScene(new Scene(view));
+    view = new ViewPane(this, menuBar, rows, cols);
+    model = new MinesweeperModel(this, rows, cols, numberOfMines);
+    menuBar.setPrefWidth(cols * 20 + 24);
+    launcher.setScene(new Scene(view));
     gameOn = true;
   }
 
-  @Override
-  public void revealCell(int row, int col) {
-    model.revealCell(row, col);
-  }
-
-  @Override
-  public void toggleFlag(int row, int col) {
-    model.toggleFlag(row, col);
+  public void resetGame(int rows1, int cols1, int numberOfMines1) {
+    GameClock.stop();
+    GameClock.reset();
+    rows = rows1;
+    cols = cols1;
+    numberOfMines = numberOfMines1;
+    view = new ViewPane(this, menuBar, rows, cols);
+    model = new MinesweeperModel(this, rows, cols, numberOfMines);
+    menuBar.setPrefWidth(cols * 20 + 24);
+    launcher.setScene(new Scene(view));
+    gameOn = true;
   }
 
   @Override
   public void stopGame() {
     gameOn = false;
-    Dashboard.getGameClock().getTimeline().stop();
-    Dashboard.getResetButton().setButtonLabel("done");
+    GameClock.stop();
+    view.setResetButtonLabel(new DoneLabel());
+  }
+
+  @Override
+  public int getMineCount() {
+    return numberOfMines;
+  }
+
+  @Override
+  public void youWin() {
+    gameOn = false;
+    view.setResetButtonLabel(new SunglassesLabel());
   }
 
 }

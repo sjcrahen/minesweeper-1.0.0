@@ -1,14 +1,19 @@
 package application.controller;
 
 import java.beans.PropertyChangeListener;
+import application.Launcher;
 import application.model.Model;
 import application.view.View;
+import javafx.scene.control.MenuBar;
 
 public abstract class Controller {
 
-  View view;
-  Model model;
-  static boolean gameOn;
+  protected Launcher launcher;
+  protected View view;
+  protected MenuBar menuBar;
+  protected Model model;
+  protected GameClock clock;
+  public static boolean gameOn;
 
   public View getView() {
     return view;
@@ -18,8 +23,20 @@ public abstract class Controller {
     return model;
   }
 
-  public PropertyChangeListener getMineCountListener() {
-    return view.getMineCountListener();
+  public PropertyChangeListener getCellPcl(int row, int col) {
+    return view.getCell(row, col);
+  }
+
+  public PropertyChangeListener getMineCountPcl() {
+    return view.getMineCountPcl();
+  }
+
+  public void revealCell(int row, int col) {
+    model.revealCell(row, col);
+  }
+
+  public void toggleFlag(int row, int col) {
+    model.toggleFlag(row, col);
   }
 
   public static boolean gameIsOn() {
@@ -34,7 +51,8 @@ public abstract class Controller {
 
   public abstract void resetGame();
 
-  abstract void revealCell(int row, int col);
+  public abstract int getMineCount();
 
-  abstract void toggleFlag(int row, int col);
+  public abstract void youWin();
+
 }

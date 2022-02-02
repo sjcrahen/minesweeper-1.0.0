@@ -23,6 +23,10 @@ public class CellMatrix {
     return matrix;
   }
 
+  public Cell getCell(int row, int col) {
+    return matrix[row][col];
+  }
+
   public List<Cell> getMinesList() {
     return minesList;
   }
@@ -31,7 +35,7 @@ public class CellMatrix {
     for (int row = 0; row < matrix.length; row++) {
       for (int col = 0; col < matrix[0].length; col++) {
         matrix[row][col] =
-                new Cell(row, col, 0, model);
+                new Cell(row, col, 0, model.getCellPcl(row, col));
       }
     }
   }

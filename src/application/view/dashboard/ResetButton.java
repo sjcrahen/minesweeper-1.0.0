@@ -1,9 +1,8 @@
 package application.view.dashboard;
 
-import java.io.InputStream;
+import application.controller.GameClock;
+import application.view.View;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -17,9 +16,9 @@ import javafx.scene.shape.StrokeType;
 
 public class ResetButton extends StackPane {
 
-  public ResetButton(Dashboard dashboard) {
+  public ResetButton(View view) {
     setMinWidth(30);
-    setMaxHeight(30);
+    setMaxWidth(30);
     setMinHeight(30);
     setMaxHeight(30);
     setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
@@ -29,16 +28,17 @@ public class ResetButton extends StackPane {
             new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.BEVEL, null, 10, 0, null),
             new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.BEVEL, null, 10, 0, null), null,
             new BorderWidths(2), null)));
-    setButtonLabel("smile");
+    setButtonLabel(new SmileLabel());
 
     setOnMousePressed(e -> {
       setBorder(new Border(new BorderStroke(Color.GRAY,
               new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.BEVEL, null, 10, 0, null),
               null, new BorderWidths(2, 1, 1, 2))));
-      Dashboard.getGameClock().getTimeline().stop();
+      GameClock.stop();
     });
 
     setOnMouseReleased(e -> {
+      GameClock.reset();
       setBorder(new Border(new BorderStroke(
               Color.WHITE, Color.GRAY, Color.GRAY, Color.WHITE,
               new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.BEVEL, null, 10, 0, null),
@@ -46,28 +46,13 @@ public class ResetButton extends StackPane {
               new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.BEVEL, null, 10, 0, null),
               new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.BEVEL, null, 10, 0, null),
               null, new BorderWidths(2), null)));
-      setButtonLabel("smile");
-      dashboard.resetGame();
+      setButtonLabel(new SmileLabel());
+      view.resetGame();
     });
   }
 
-  public void setButtonLabel(String label) {
-    this.getChildren().clear();
-    if (label.equals("smile")) {
-      InputStream isSmile =
-              getClass().getClassLoader().getResourceAsStream("resources/img/smile.PNG");
-      this.getChildren()
-              .add(new Label(null, new ImageView(new Image(isSmile, 26, 26, true, true))));
-    } else if (label.equals("scared")) {
-      InputStream isScared =
-              getClass().getClassLoader().getResourceAsStream("resources/img/scared.PNG");
-      this.getChildren()
-              .add(new Label(null, new ImageView(new Image(isScared, 26, 26, true, true))));
-    } else if (label.equals("done")) {
-      InputStream isGameOver =
-              getClass().getClassLoader().getResourceAsStream("resources/img/done.PNG");
-      this.getChildren()
-              .add(new Label(null, new ImageView(new Image(isGameOver, 26, 26, true, true))));
-    }
+  public void setButtonLabel(Label label) {
+    getChildren().clear();
+    getChildren().add(label);
   }
 }
