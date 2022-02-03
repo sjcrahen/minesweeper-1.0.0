@@ -1,15 +1,16 @@
 package application.controller;
 
-import application.Launcher;
+import application.Main;
 import application.model.MinesweeperModel;
 import application.view.ViewPane;
-import application.view.dashboard.DoneLabel;
-import application.view.dashboard.SunglassesLabel;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -28,7 +29,7 @@ public class MinesweeperController extends Controller {
   private int cols = DEFAULT_COLS;
   private int numberOfMines = DEFAULT_NUM_OF_MINES;
 
-  public MinesweeperController(Launcher launcher) {
+  public MinesweeperController(Main launcher) {
     this.launcher = launcher;
 
     Menu gameMenu = new Menu("Game");
@@ -84,7 +85,10 @@ public class MinesweeperController extends Controller {
   public void stopGame() {
     gameOn = false;
     GameClock.stop();
-    view.setResetButtonLabel(new DoneLabel());
+    view.setResetButtonLabel(new Label(null, new ImageView(
+            new Image(getClass().getClassLoader()
+                    .getResourceAsStream("resources/img/done.PNG"),
+                    26, 26, true, true))));
   }
 
   @Override
@@ -95,7 +99,10 @@ public class MinesweeperController extends Controller {
   @Override
   public void youWin() {
     gameOn = false;
-    view.setResetButtonLabel(new SunglassesLabel());
+    view.setResetButtonLabel(new Label(null, new ImageView(
+            new Image(getClass().getClassLoader()
+                    .getResourceAsStream("resources/img/sunglasses.PNG"),
+                    26, 26, true, true))));
   }
 
 }

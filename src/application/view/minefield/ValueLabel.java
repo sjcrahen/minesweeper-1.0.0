@@ -7,7 +7,8 @@ import javafx.scene.text.Font;
 public class ValueLabel extends Label {
 
   public ValueLabel(int value) {
-    Font font = Font.loadFont("file:resources/fonts/labelFont.ttf", 20.0);
+    Font font = Font.loadFont(
+            getClass().getClassLoader().getResourceAsStream("resources/fonts/labelFont.ttf"), 20.0);
     setFont(font);
     setText(String.valueOf(value));
     setFontColor();

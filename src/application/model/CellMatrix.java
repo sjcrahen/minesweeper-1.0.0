@@ -57,18 +57,6 @@ public class CellMatrix {
         remainingMines--;
       }
     }
-    // for (MinefieldModelCell[] arr : matrix) {
-    // System.out.println(Arrays.toString(arr));
-    // }
-    // int mines = 0;
-    // for (int r = 0; r < matrix.length; r++) {
-    // for (int c = 0; c < matrix[0].length; c++) {
-    // if (matrix[r][c].getValue() == -1) {
-    // mines++;
-    // }
-    // }
-    // }
-    // System.out.println(mines);
   }
 
   private void setAdjacencyValues() {
@@ -79,9 +67,6 @@ public class CellMatrix {
         }
       }
     }
-    // for (MinefieldModelCell[] arr : matrix) {
-    // System.out.println(Arrays.toString(arr));
-    // }
   }
 
   private int countAdjacentMines(int row, int col) {

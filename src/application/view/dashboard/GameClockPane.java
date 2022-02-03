@@ -17,7 +17,9 @@ public class GameClockPane extends StackPane {
     setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(3), null)));
     label = new Label();
     label.textProperty().bind(GameClock.getGameTimeStringProperty());
-    Font font = Font.loadFont("file:resources/fonts/digitalFont.ttf", 40.0);
+    Font font = Font.loadFont(
+            getClass().getClassLoader().getResourceAsStream("resources/fonts/digitalFont.ttf"),
+            40.0);
     label.setFont(font);
     label.setTextFill(Color.RED);
     getChildren().add(label);

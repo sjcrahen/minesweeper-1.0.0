@@ -3,6 +3,8 @@ package application.view.dashboard;
 import application.controller.GameClock;
 import application.view.View;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -28,7 +30,10 @@ public class ResetButton extends StackPane {
             new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.BEVEL, null, 10, 0, null),
             new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.BEVEL, null, 10, 0, null), null,
             new BorderWidths(2), null)));
-    setButtonLabel(new SmileLabel());
+    setButtonLabel(new Label(null, new ImageView(
+            new Image(getClass().getClassLoader()
+                    .getResourceAsStream("resources/img/smile.PNG"),
+                    26, 26, true, true))));
 
     setOnMousePressed(e -> {
       setBorder(new Border(new BorderStroke(Color.GRAY,
@@ -46,7 +51,10 @@ public class ResetButton extends StackPane {
               new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.BEVEL, null, 10, 0, null),
               new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.BEVEL, null, 10, 0, null),
               null, new BorderWidths(2), null)));
-      setButtonLabel(new SmileLabel());
+      setButtonLabel(new Label(null, new ImageView(
+              new Image(getClass().getClassLoader()
+                      .getResourceAsStream("resources/img/smile.PNG"),
+                      26, 26, true, true))));
       view.resetGame();
     });
   }

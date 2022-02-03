@@ -18,7 +18,6 @@ public class Minefield extends StackPane {
   public Minefield(View view, ViewCellMatrix cellMatrix, int rows, int cols) {
     this.view = view;
     this.cellMatrix = cellMatrix;
-    // cellMatrix = new ViewCellMatrix(this, rows, cols);
     getChildren().clear();
     getChildren().add(cellMatrix);
 

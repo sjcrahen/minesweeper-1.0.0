@@ -22,7 +22,6 @@ public class ViewPane extends View {
   public ViewPane(MinesweeperController controller, MenuBar menu, int rows, int cols) {
     this.controller = controller;
 
-    // inject cellMatrix into minefield
     ViewCellMatrix cellMatrix = new ViewCellMatrix(this, rows, cols);
     minefield = new Minefield(this, cellMatrix, rows, cols);
 
@@ -51,17 +50,6 @@ public class ViewPane extends View {
     return dashboard.getMineCountPane();
   }
 
-  @Override
-  public int getNumberOfMines() {
-    return controller.getMineCount();
-  }
-
-  @Override
-  public void resetGame() {
-    controller.resetGame();
-  }
-
-  @Override
   public void setResetButtonLabel(Label label) {
     resetButton.setButtonLabel(label);
   }

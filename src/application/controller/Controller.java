@@ -1,14 +1,14 @@
 package application.controller;
 
 import java.beans.PropertyChangeListener;
-import application.Launcher;
+import application.Main;
 import application.model.Model;
 import application.view.View;
 import javafx.scene.control.MenuBar;
 
 public abstract class Controller {
 
-  protected Launcher launcher;
+  protected Main launcher;
   protected View view;
   protected MenuBar menuBar;
   protected Model model;

@@ -18,7 +18,9 @@ public class MineCountPane extends StackPane implements PropertyChangeListener {
   public MineCountPane(View view) {
     setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(3), null)));
     label = new Label();
-    Font font = Font.loadFont("file:resources/fonts/digitalFont.ttf", 40.0);
+    Font font = Font.loadFont(
+            getClass().getClassLoader().getResourceAsStream("resources/fonts/digitalFont.ttf"),
+            40.0);
     label.setFont(font);
     label.setTextFill(Color.RED);
     label.setText(String.format("%03d", view.getNumberOfMines()));

@@ -3,8 +3,10 @@ package application.view.minefield;
 import application.controller.Controller;
 import application.controller.GameClock;
 import application.view.View;
-import application.view.dashboard.ScaredLabel;
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
@@ -56,15 +58,16 @@ public class ViewCellMatrix extends TilePane {
 
           startGameClock();
 
-          view.setResetButtonLabel(new ScaredLabel());
+          view.setResetButtonLabel(new Label(null, new ImageView(
+                  new Image(getClass().getClassLoader()
+                          .getResourceAsStream("resources/img/scared.PNG"),
+                          26, 26, true, true))));
 
-          view.getController().revealCell(clickedCell.getRow(),
-                  clickedCell.getCol());
+          view.revealCell(clickedCell.getRow(), clickedCell.getCol());
 
         } else if (event.getButton() == MouseButton.SECONDARY) {
 
-          view.getController().toggleFlag(clickedCell.getRow(),
-                  clickedCell.getCol());
+          view.toggleFlag(clickedCell.getRow(), clickedCell.getCol());
         }
       }
     }

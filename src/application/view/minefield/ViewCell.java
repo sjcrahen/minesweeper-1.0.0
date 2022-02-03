@@ -5,8 +5,10 @@ import java.beans.PropertyChangeListener;
 import application.controller.Controller;
 import application.model.Cell;
 import application.view.View;
-import application.view.dashboard.SmileLabel;
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -48,7 +50,10 @@ public class ViewCell extends StackPane implements PropertyChangeListener {
     setOnMousePressed(handler);
     setOnMouseReleased(e -> {
       if (Controller.gameIsOn())
-        view.setResetButtonLabel(new SmileLabel());
+        view.setResetButtonLabel(new Label(null, new ImageView(
+                new Image(getClass().getClassLoader()
+                        .getResourceAsStream("resources/img/smile.PNG"),
+                        26, 26, true, true))));
     });
   }
 
@@ -80,7 +85,10 @@ public class ViewCell extends StackPane implements PropertyChangeListener {
       boolean isFlagged = (boolean) evt.getNewValue();
 
       if (isFlagged) {
-        getChildren().add(new FlagLabel());
+        getChildren().add(new ImageView(
+                new Image(getClass().getClassLoader()
+                        .getResourceAsStream("resources/img/flag.PNG"),
+                        14, 14, true, true)));
       } else {
         getChildren().clear();
       }
@@ -93,10 +101,16 @@ public class ViewCell extends StackPane implements PropertyChangeListener {
             new BorderWidths(1))));
     switch (value) {
       case -2:
-        getChildren().add(new ExplodedMineLabel());
+        getChildren().add(new ImageView(
+                new Image(getClass().getClassLoader()
+                        .getResourceAsStream("resources/img/explodedMine.PNG"),
+                        19, 19, false, true)));
         break;
       case -1:
-        getChildren().add(new MineLabel());
+        getChildren().add(new ImageView(
+                new Image(getClass().getClassLoader()
+                        .getResourceAsStream("resources/img/mine.PNG"),
+                        19, 19, false, true)));
         break;
       case 0:
         break;

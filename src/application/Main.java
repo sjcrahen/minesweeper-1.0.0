@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public class Launcher extends Application {
+public class Main extends Application {
 
   private Stage stage;
   private Controller controller;
@@ -27,5 +27,9 @@ public class Launcher extends Application {
 
   public void setScene(Scene scene) {
     stage.setScene(scene);
+  }
+
+  public static void main(String[] args) {
+    launch(args);
   }
 }

@@ -21,14 +21,26 @@ public abstract class View extends FlowPane {
     return minefield;
   }
 
+  public void toggleFlag(int row, int col) {
+    controller.toggleFlag(row, col);
+  }
+
+  public void revealCell(int row, int col) {
+    controller.revealCell(row, col);
+  }
+
+  public int getNumberOfMines() {
+    return controller.getMineCount();
+  };
+
+  public void resetGame() {
+    controller.resetGame();
+  }
+
+  public abstract void setResetButtonLabel(Label label);
+
   public abstract PropertyChangeListener getCell(int row, int col);
 
   public abstract PropertyChangeListener getMineCountPcl();
-
-  public abstract int getNumberOfMines();
-
-  public abstract void resetGame();
-
-  public abstract void setResetButtonLabel(Label smileLabel);
 
 }
